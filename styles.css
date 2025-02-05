@@ -114,3 +114,39 @@ h1 {
   color: white;
   cursor: pointer;
 }
+
+/* Footer Styles */
+.footer {
+  background-color: #222;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.footer-text {
+  font-size: 16px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.footer-credits {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #ddd;
+}
+
+.footer-credits a {
+  color: #ff9800;
+  text-decoration: none;
+}
+
+.footer-credits a:hover {
+  text-decoration: underline;
+}
