@@ -1,1 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixplore - Stylish Image Gallery</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Pixplore - Explore Stunning Images</h1>
 
+    <!-- Filter Buttons -->
+    <div class="filter-buttons">
+      <button class="filter-btn" data-category="all">All</button>
+      <button class="filter-btn" data-category="nature">Nature</button>
+      <button class="filter-btn" data-category="travel">Travel</button>
+      <button class="filter-btn" data-category="food">Food</button>
+      <button class="filter-btn" data-category="architecture">Architecture</button>
+      <button class="filter-btn" data-category="animals">Animals</button>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="gallery">
+      <div class="gallery-item card" data-category="nature">
+        <img src="https://source.unsplash.com/400x300/?nature" alt="Nature Image">
+        <div class="card-content">
+          <h3>Nature's Beauty</h3>
+          <p>Feel the calmness of mother nature.</p>
+        </div>
+      </div>
+      <div class="gallery-item card" data-category="travel">
+        <img src="https://source.unsplash.com/400x300/?travel" alt="Travel Image">
+        <div class="card-content">
+          <h3>Adventure Awaits</h3>
+          <p>Explore breathtaking destinations.</p>
+        </div>
+      </div>
+      <div class="gallery-item card" data-category="food">
+        <img src="https://source.unsplash.com/400x300/?food" alt="Food Image">
+        <div class="card-content">
+          <h3>Delicious Bites</h3>
+          <p>Satisfy your taste buds with these dishes.</p>
+        </div>
+      </div>
+      <div class="gallery-item card" data-category="architecture">
+        <img src="https://source.unsplash.com/400x300/?architecture" alt="Architecture Image">
+        <div class="card-content">
+          <h3>Architectural Marvels</h3>
+          <p>Discover stunning architectural designs.</p>
+        </div>
+      </div>
+      <div class="gallery-item card" data-category="animals">
+        <img src="https://source.unsplash.com/400x300/?animals" alt="Animal Image">
+        <div class="card-content">
+          <h3>Wildlife Wonders</h3>
+          <p>Explore the beauty of the animal kingdom.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
