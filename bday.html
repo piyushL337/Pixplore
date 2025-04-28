@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Bestie!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        font-family: 'Poppins', sans-serif;
+        color: white;
+    }
+
+    @keyframes gradient {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
+    }
+
+    .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 60px;
+        margin-bottom: 20px;
+        text-shadow: 3px 3px 10px black;
+        animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {transform: translate(-50%, -50%) translateY(0);}
+        40% {transform: translate(-50%, -50%) translateY(-30px);}
+        60% {transform: translate(-50%, -50%) translateY(-15px);}
+    }
+
+    p {
+        font-size: 24px;
+        margin-bottom: 30px;
+        opacity: 0;
+        animation: fadeIn 2s ease-in forwards;
+        animation-delay: 2s;
+    }
+
+    @keyframes fadeIn {
+        to {opacity: 1;}
+    }
+
+    button {
+        padding: 15px 30px;
+        font-size: 20px;
+        border: none;
+        border-radius: 30px;
+        background: #ff6f91;
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #ff3e6c;
+        transform: scale(1.1);
+    }
+
+    .balloon {
+        position: absolute;
+        bottom: -100px;
+        width: 50px;
+        height: 70px;
+        background: #ff6f91;
+        border-radius: 50% 50% 50% 50%;
+        animation: float 6s infinite ease-in-out;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg);}
+        50% { transform: translateY(-600px) rotate(360deg);}
+        100% { transform: translateY(0) rotate(720deg);}
+    }
+
+    #bestiePic {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 20px;
+        border: 5px solid white;
+        box-shadow: 0px 0px 30px 5px #fff;
+        animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+        from {box-shadow: 0px 0px 30px 5px #ff9a9e;}
+        to {box-shadow: 0px 0px 30px 15px #fad0c4;}
+    }
+
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+    }
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="container">
+    <img id="bestiePic" src="https://cdn.discordapp.com/avatars/1221773582510719078/fe971a9b4ca6b788d047a007850d60f4?size=1024" alt="Bestie"> <!-- Replace the URL with your bestie's pic -->
+    <h1>Happy Birthday, Bestie!</h1>
+    <p>Wishing you smiles, hugs, cake and all the love in the world!</p>
+    <button onclick="showMagic()">Click for a Magical Surprise!</button>
+</div>
+
+<audio id="music" src="https://dl.prokerala.com/downloads/ringtones/files/mp3/25337-483.mp3"></audio>
+
+<script>
+function createBalloon() {
+    const balloon = document.createElement('div');
+    balloon.classList.add('balloon');
+    balloon.style.left = Math.random() * window.innerWidth + 'px';
+    balloon.style.background = `hsl(${Math.random() * 360}, 70%, 70%)`;
+    document.body.appendChild(balloon);
+
+    setTimeout(() => {
+        balloon.remove();
+    }, 6000);
+}
+
+function showMagic() {
+    const music = document.getElementById('music');
+    music.play();
+    for (let i = 0; i < 50; i++) {
+        setTimeout(createBalloon, i * 150);
+    }
+    explodeFireworks();
+}
+
+// Fireworks effect
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function Firework() {
+    this.x = canvas.width / 2;
+    this.y = canvas.height;
+    this.targetX = random(0, canvas.width);
+    this.targetY = random(0, canvas.height / 2);
+    this.speed = 5;
+    this.angle = Math.atan2(this.targetY - this.y, this.targetX - this.x);
+    this.distanceToTarget = Math.hypot(this.targetX - this.x, this.targetY - this.y);
+    this.traveled = 0;
+    this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+
+    this.update = function() {
+        let vx = Math.cos(this.angle) * this.speed;
+        let vy = Math.sin(this.angle) * this.speed;
+        this.traveled += Math.hypot(vx, vy);
+        if (this.traveled >= this.distanceToTarget) {
+            createParticles(this.targetX, this.targetY, this.color);
+            return true;
+        }
+        this.x += vx;
+        this.y += vy;
+        return false;
+    }
+
+    this.draw = function() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+function Particle(x, y, color) {
+    this.x = x;
+    this.y = y;
+    this.speed = random(1, 6);
+    this.angle = random(0, Math.PI * 2);
+    this.gravity = 0.05;
+    this.friction = 0.98;
+    this.color = color;
+    this.alpha = 1;
+
+    this.update = function() {
+        this.speed *= this.friction;
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed + this.gravity;
+        this.alpha -= 0.02;
+        return this.alpha <= 0;
+    }
+
+    this.draw = function() {
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+}
+
+let fireworks = [];
+let particles = [];
+
+function explodeFireworks() {
+    setInterval(() => {
+        fireworks.push(new Firework());
+    }, 300);
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = fireworks.length - 1; i >= 0; i--) {
+        if (fireworks[i].update()) fireworks.splice(i, 1);
+        else fireworks[i].draw();
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+        if (particles[i].update()) particles.splice(i, 1);
+        else particles[i].draw();
+    }
+
+    requestAnimationFrame(animate);
+}
+
+function createParticles(x, y, color) {
+    for (let i = 0; i < 30; i++) {
+        particles.push(new Particle(x, y, color));
+    }
+}
+
+animate();
+</script>
+
+</body>
+</html>
